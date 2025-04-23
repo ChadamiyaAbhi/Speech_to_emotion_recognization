@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Speech to Emotion Recognition</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+</head>
+<body>
+
+    <h2>Speech to Emotion Recognition</h2>
+
+    <!-- Audio Recording -->
+    <button id="recordBtn">🎤 Record Audio</button>
+    <button id="stopBtn" disabled>⏹️ Stop Recording</button>
+
+    <!-- File Upload -->
+    <input type="file" id="audioFile">
+    <button id="uploadBtn">📤 Upload Audio</button>
+
+    <!-- Display Result -->
+    <h3 id="result"></h3>
+
+    <script src="{{ url_for('static', filename='script.js') }}"></script>
+</body>
+</html>

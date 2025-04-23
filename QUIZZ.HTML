@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mood Tracker Quiz</title>
+    <link rel="stylesheet" href="styles.css">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            color: #333;
+        }
+
+        .container {
+            width: 80%;
+            margin: auto;
+            max-width: 600px;
+            padding: 20px;
+            background: white;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+
+        .hidden {
+            display: none;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Mood Tracker Quiz</h1>
+        <div id="quiz-container">
+            <form id="quiz-form">
+                <!-- Quiz questions will be injected here by JavaScript -->
+            </form>
+            <button id="submit-btn">Submit</button>
+        </div>
+        <div id="result" class="hidden">
+            <h2>Your Mood Result:</h2>
+            <p id="mood-result"></p>
+            <button id="restart-btn">Retake Quiz</button>
+        </div>
+    </div>
+
+    <script>
+        const quizQuestions = [
+            "How are you feeling today?",
+            "Did you sleep well last night?",
+            "Have you felt anxious recently?",
+            "Are you looking forward to anything today?",
+            "Do you feel overwhelmed by your tasks?",
+            "Have you spent time with friends or family lately?",
+            "Are you enjoying your work or studies?",
+            "Do you feel like you have enough time for yourself?",
+            "Have you been eating well?",
+            "Do you feel motivated to do things?"
+        ];
+
+        function loadQuiz() {
+            const quizForm = document.getElementById('quiz-form');
+            quizQuestions.forEach((question, index) => {
+                const questionHTML = `
+                    <div>
+                        <label>${question}</label><br>
+                        <input type="radio" name="question${index}" value="1"> Not at all<br>
+                        <input type="radio" name="question${index}" value="2"> A little<br>
+                        <input type="radio" name="question${index}" value="3"> Moderately<br>
+                        <input type="radio" name="question${index}" value="4"> A lot<br>
+                    </div>
+                `;
+                quizForm.innerHTML += questionHTML;
+            });
+        }
+
+        function calculateMood() {
+            let totalScore = 0;
+            for (let i = 0; i < quizQuestions.length; i++) {
+                const selectedAnswer = document.querySelector(`input[name="question${i}"]:checked`);
+                if (selectedAnswer) {
+                    totalScore += parseInt(selectedAnswer.value);
+                }
+            }
+            return totalScore / quizQuestions.length; // Average score
+        }
+
+        document.getElementById('submit-btn').addEventListener('click', function() {
+            const moodScore = calculateMood();
+            let moodMessage = '';
+
+            if (moodScore <= 1.5) {
+                moodMessage = 'You might be feeling down. Consider reaching out to someone.';
+            } else if (moodScore <= 2.5) {
+                moodMessage = 'You are feeling okay, but there is room for improvement.';
+            } else {
+                moodMessage = 'You are feeling good! Keep up the positive vibes!';
+            }
+
+            document.getElementById('mood-result').innerText = moodMessage;
+            document.getElementById('quiz-container').classList.add('hidden');
+            document.getElementById('result').classList.remove('hidden');
+        });
+
+        document.getElementById('restart-btn').addEventListener('click', function() {
+            document.getElementById('result').classList.add('hidden');
+            document.getElementById('quiz-container').classList.remove('hidden');
+            document.getElementById('quiz-form').reset();
+        });
+
+        loadQuiz();
+    </script>
+</body>
+</html>
